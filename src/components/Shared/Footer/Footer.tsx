@@ -5,24 +5,21 @@ import {
   FaInstagram,
   FaPhone,
 } from "react-icons/fa";
+import logo from "../../../assets/logo.png";
 import { MdOutlineMail } from "react-icons/md";
 import Container from "../Container/Container";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-20">
+    <footer className="bg-black text-white py-10">
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
           {/* Brand Section */}
           <div className="flex flex-col items-center lg:items-start">
-            <img
-              src={"logo"}
-              alt="Skill Canvas Hub Logo"
-              className="h-16 w-16 mb-3"
-            />
-            <h2 className="text-2xl font-bold text-[#FD661F]">Name</h2>
+            <img src={logo} alt="SpinCycle Logo" className="h-16 w-16 mb-3" />
+            <h2 className="text-2xl font-bold text-[#FD661F]">SpinCycle</h2>
             <p className="text-[#8A8A8A] my-2 text-center lg:text-left">
-              Empowering minds through knowledge.
+              Keep the wheels turning and the fun spinning.
             </p>
             <div className="flex space-x-4 mt-3">
               <a href="#" className="hover:text-gray-400">

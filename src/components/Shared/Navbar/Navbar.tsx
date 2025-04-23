@@ -8,6 +8,8 @@ import { NavLink, Link } from "react-router-dom";
 import Container from "../Container/Container";
 import { FiMenu } from "react-icons/fi";
 import { FaLock, FaSignOutAlt } from "react-icons/fa";
+import avatar from "./../../../assets/avatar.png";
+import logo from "./../../../assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -106,7 +108,16 @@ const Navbar = () => {
           <div className="flex justify-between items-center relative">
             {/* Logo */}
             <div className="order-2 md:order-1">
-              <h1>LOGO</h1>
+              <Link to="/" className="flex items-center gap-2">
+                <img
+                  src={logo}
+                  alt="SpinCycle Logo"
+                  className="h-16 w-16 mb-3"
+                />
+                <span className="text-[#2E8B57] text-2xl font-bold ">
+                  SpinCycle
+                </span>
+              </Link>
             </div>
 
             {/* Desktop Menu */}
@@ -137,7 +148,7 @@ const Navbar = () => {
                   >
                     <div className="w-10 h-10 rounded-full overflow-hidden">
                       <img
-                        src={"/default-avatar.png"}
+                        src={avatar}
                         alt="User Avatar"
                         className="object-cover w-full h-full"
                       />
