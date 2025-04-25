@@ -7,24 +7,28 @@ import {
 } from "../../../redux/features/products/productApi";
 
 const ManageProducts = () => {
-  const { data, isLoading, isError } = useGetAllProductsQuery();
+  const { data, isLoading, isError } = useGetAllProductsQuery({});
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
 
-  const [editingProduct, setEditingProduct] = useState<any | null>(null);
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
+  const [formData, setFormData] = useState<any>(null);
 
-  const handleEdit = (product: any) => {
-    setEditingProduct(product);
+  const handleEdit = (productId: string) => {
+    setEditingProductId(productId);
   };
 
   const handleUpdate = async () => {
+    if (!formData) return;
+
     try {
       await updateProduct({
-        productId: editingProduct._id,
-        data: editingProduct,
+        productId: editingProductId!,
+        data: formData,
       }).unwrap();
       toast.success("Product updated successfully!");
-      setEditingProduct(null);
+      setEditingProductId(null);
+      setFormData(null);
     } catch (error) {
       toast.error("Failed to update product.");
     }
@@ -37,6 +41,16 @@ const ManageProducts = () => {
     } catch (error) {
       toast.error("Failed to delete product.");
     }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev: any) => ({
+      ...prev,
+      [name]: name === "price" || name === "quantity" ? Number(value) : value,
+    }));
   };
 
   if (isLoading) return <p>Loading products...</p>;
@@ -68,7 +82,10 @@ const ManageProducts = () => {
               </td>
               <td className="border border-gray-300 p-2">
                 <button
-                  onClick={() => handleEdit(product)}
+                  onClick={() => {
+                    handleEdit(product._id);
+                    setFormData(product); // Set default product data in the form
+                  }}
                   className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2"
                 >
                   Edit
@@ -86,64 +103,71 @@ const ManageProducts = () => {
       </table>
 
       {/* Edit Modal */}
-      {editingProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded shadow-lg w-1/2">
-            <h2 className="text-xl font-bold mb-4">Edit Product</h2>
+      {editingProductId && formData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              Edit Product
+            </h2>
             <form className="grid grid-cols-1 gap-4">
               <input
                 type="text"
                 name="name"
-                value={editingProduct.name}
-                onChange={(e) =>
-                  setEditingProduct({
-                    ...editingProduct,
-                    name: e.target.value,
-                  })
-                }
+                value={formData.name}
+                onChange={handleInputChange}
                 placeholder="Product Name"
                 className="p-3 border rounded-lg"
               />
               <input
                 type="text"
                 name="brand"
-                value={editingProduct.brand}
-                onChange={(e) =>
-                  setEditingProduct({
-                    ...editingProduct,
-                    brand: e.target.value,
-                  })
-                }
+                value={formData.brand}
+                onChange={handleInputChange}
                 placeholder="Brand"
                 className="p-3 border rounded-lg"
               />
               <input
                 type="number"
                 name="price"
-                value={editingProduct.price}
-                onChange={(e) =>
-                  setEditingProduct({
-                    ...editingProduct,
-                    price: Number(e.target.value),
-                  })
-                }
+                value={formData.price}
+                onChange={handleInputChange}
                 placeholder="Price"
                 className="p-3 border rounded-lg"
               />
-              <button
-                type="button"
-                onClick={handleUpdate}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Update Product
-              </button>
-              <button
-                type="button"
-                onClick={() => setEditingProduct(null)}
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-              >
-                Cancel
-              </button>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="Description"
+                className="p-3 border rounded-lg"
+              />
+              <input
+                type="number"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleInputChange}
+                placeholder="Quantity"
+                className="p-3 border rounded-lg"
+              />
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={handleUpdate}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                >
+                  Update
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingProductId(null);
+                    setFormData(null);
+                  }}
+                  className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600"
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           </div>
         </div>

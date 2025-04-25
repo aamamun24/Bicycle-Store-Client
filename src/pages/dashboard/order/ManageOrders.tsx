@@ -3,7 +3,7 @@ import {
   useGetAllOrdersQuery,
   useUpdateOrderMutation,
   useDeleteOrderMutation,
-} from "../../../redux/features/cart/cartApi";
+} from "../../../redux/features/order/orderApi";
 
 const ManageOrders = () => {
   const { data, isLoading, isError } = useGetAllOrdersQuery();
@@ -12,7 +12,17 @@ const ManageOrders = () => {
 
   const handleUpdateStatus = async (orderId: string, status: string) => {
     try {
-      await updateOrder({ orderId, data: { status } }).unwrap();
+      await updateOrder({
+        orderId,
+        data: {
+          status: status as
+            | "Pending"
+            | "Processing"
+            | "Shipped"
+            | "Delivered"
+            | "Cancelled",
+        },
+      }).unwrap();
       toast.success("Order status updated successfully!");
     } catch (error) {
       toast.error("Failed to update order status.");

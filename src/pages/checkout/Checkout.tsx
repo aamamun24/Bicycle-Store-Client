@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { toast } from "sonner";
-import { useCreateOrderMutation } from "../../redux/features/cart/cartApi";
+import { useCreateOrderMutation } from "../../redux/features/order/orderApi";
 import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 
 const Checkout = () => {
@@ -42,7 +42,11 @@ const Checkout = () => {
       email: user?.email || "",
       address,
       contactNumber: phone,
-      product: String(bicycle._id),
+      product: {
+        _id: bicycle._id,
+        name: bicycle.name,
+        price: bicycle.price,
+      },
       quantity: Number(quantity),
       totalPrice: Number(total),
     };
@@ -51,7 +55,11 @@ const Checkout = () => {
       const result = await createOrder(orderData).unwrap();
       if (result.success) {
         toast.success("Redirecting to payment...");
-        window.location.href = result.PaymentGatewayPageURL;
+        if (result.PaymentGatewayPageURL) {
+          window.location.href = result.PaymentGatewayPageURL;
+        } else {
+          toast.error("Payment gateway URL is missing.");
+        }
       }
     } catch (err) {
       console.error("Order error:", err);

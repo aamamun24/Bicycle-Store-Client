@@ -1,6 +1,6 @@
 import Banner from "./Banner";
 import FeaturedBicycles from "./FeaturedBicycles";
-import OurServices from "./Ourservices";
+import OurServices from "./OurServices";
 import Testimonials from "./Testimonials";
 import WhyChooseUs from "./WhyChooseUs";
 

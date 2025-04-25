@@ -22,6 +22,7 @@ export interface Order {
 interface OrderResponse {
   success: boolean;
   data: Order;
+  PaymentGatewayPageURL?: string;
 }
 
 interface OrdersResponse {
@@ -29,7 +30,6 @@ interface OrdersResponse {
   data: Order[];
 }
 
-// Define the orderApi
 const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Fetch all orders (Admin)
@@ -53,7 +53,17 @@ const orderApi = baseApi.injectEndpoints({
     // Update an order's status (Admin)
     updateOrder: builder.mutation<
       OrderResponse,
-      { orderId: string; data: Partial<Order> }
+      {
+        orderId: string;
+        data: {
+          status:
+            | "Pending"
+            | "Processing"
+            | "Shipped"
+            | "Delivered"
+            | "Cancelled";
+        };
+      }
     >({
       query: ({ orderId, data }) => ({
         url: `/orders/${orderId}`,
@@ -71,6 +81,16 @@ const orderApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Orders"],
     }),
+
+    // Create a new order (Customer)
+    createOrder: builder.mutation<OrderResponse, Partial<Order>>({
+      query: (orderData) => ({
+        url: "/orders",
+        method: "POST",
+        body: orderData,
+      }),
+      invalidatesTags: ["Orders"],
+    }),
   }),
 });
 
@@ -79,6 +99,7 @@ export const {
   useGetUserOrdersQuery,
   useUpdateOrderMutation,
   useDeleteOrderMutation,
+  useCreateOrderMutation,
 } = orderApi;
 
 export default orderApi;

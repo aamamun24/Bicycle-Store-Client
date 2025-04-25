@@ -3,11 +3,16 @@ import { useAppSelector } from "../redux/hooks";
 import { selectCurrentToken } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
 import { Navigate } from "react-router-dom";
+import { JwtPayload } from "jsonwebtoken";
 
 type TProtectedRoute = {
   children: ReactNode;
   allowedRoles: ("admin" | "customer")[];
 };
+
+interface CustomJwtPayload extends JwtPayload {
+  role: "admin" | "customer";
+}
 
 const ProtectedRoute = ({ children, allowedRoles }: TProtectedRoute) => {
   const token = useAppSelector(selectCurrentToken);
@@ -18,7 +23,7 @@ const ProtectedRoute = ({ children, allowedRoles }: TProtectedRoute) => {
   }
 
   // Check if the user's role matches any of the allowed roles
-  const isAuthorized = allowedRoles.includes(user?.role);
+  const isAuthorized = allowedRoles.includes((user as CustomJwtPayload)?.role);
 
   if (!token || !isAuthorized) {
     return <Navigate to="/login" replace />;

@@ -32,11 +32,11 @@ const Bicycles = () => {
     setSearch(e.target.value);
   };
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters({
-      ...filters,
-      [e.target.name]: e.target.value,
-    });
+  const handleFilterChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,9 +149,6 @@ const Bicycles = () => {
                   </h3>
                   <p className="text-gray-500 text-sm mb-1">
                     Brand: {bike.brand}
-                  </p>
-                  <p className="text-gray-500 text-sm mb-1">
-                    Model: {bike.model}
                   </p>
                   <p className="text-xl font-semibold text-gray-900">
                     ${bike.price}
