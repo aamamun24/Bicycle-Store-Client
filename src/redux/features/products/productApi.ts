@@ -1,46 +1,91 @@
 import { baseApi } from "../../api/baseApi";
+import { TProduct } from "./productSlice";
 
-const productsApi = baseApi.injectEndpoints({
+// Define response types
+interface ProductResponse {
+  success: boolean;
+  message: string;
+  data: TProduct;
+}
+
+interface ProductsResponse {
+  success: boolean;
+  message: string;
+  data: TProduct[];
+}
+
+interface DeleteResponse {
+  success: boolean;
+  message: string;
+  data: null;
+}
+
+// Define query parameter types
+interface GetAllProductsQueryParams {
+  search?: string;
+  filter?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  page?: number;
+  limit?: number;
+  fields?: string;
+}
+
+const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    createProduct: builder.mutation({
+    getAllProducts: builder.query<ProductsResponse, GetAllProductsQueryParams>({
+      query: (params) => ({
+        url: `/products`,
+        method: "GET",
+        params,
+      }),
+    }),
+
+    // Fetch a single product by ID
+    getSingleProduct: builder.query<ProductResponse, string>({
+      query: (productId) => ({
+        url: `/products/${productId}`,
+        method: "GET",
+      }),
+    }),
+
+    // Create a new product
+    createProduct: builder.mutation<ProductResponse, Partial<TProduct>>({
       query: (productData) => ({
         url: "/products",
         method: "POST",
         body: productData,
       }),
     }),
-    updateProduct: builder.mutation({
-      query: ({ productId, updatedData }) => ({
+
+    // Update an existing product
+    updateProduct: builder.mutation<
+      ProductResponse,
+      { productId: string; data: Partial<TProduct> }
+    >({
+      query: ({ productId, data }) => ({
         url: `/products/${productId}`,
-        method: "PUT",
-        body: updatedData,
+        method: "PATCH",
+        body: data,
       }),
     }),
-    deleteProduct: builder.mutation({
-      query: (productId: string) => ({
+
+    // Delete a product by ID
+    deleteProduct: builder.mutation<DeleteResponse, string>({
+      query: (productId) => ({
         url: `/products/${productId}`,
         method: "DELETE",
-      }),
-    }),
-    getAllProducts: builder.query({
-      query: () => ({
-        url: "/products",
-        method: "GET",
-      }),
-    }),
-    getSingleProduct: builder.query({
-      query: (productId: string) => ({
-        url: `/products/${productId}`,
-        method: "GET",
       }),
     }),
   }),
 });
 
 export const {
+  useGetAllProductsQuery,
+  useGetSingleProductQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
-  useGetAllProductsQuery,
-  useGetSingleProductQuery,
-} = productsApi;
+} = productApi;
+
+export default productApi;

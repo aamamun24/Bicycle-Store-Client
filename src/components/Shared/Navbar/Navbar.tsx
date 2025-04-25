@@ -5,10 +5,8 @@ import {
   selectCurrentUser,
 } from "../../../redux/features/auth/authSlice";
 import { NavLink, Link } from "react-router-dom";
-import Container from "../Container/Container";
 import { FiMenu } from "react-icons/fi";
-import { FaLock, FaSignOutAlt } from "react-icons/fa";
-import avatar from "./../../../assets/avatar.png";
+import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import logo from "./../../../assets/logo.png";
 
 const Navbar = () => {
@@ -55,8 +53,8 @@ const Navbar = () => {
           to="/"
           className={({ isActive }) =>
             isActive
-              ? "text-[#2E8B57] text-lg font-bold"
-              : "text-gray-700 text-lg font-medium"
+              ? "text-[#2E8B57] font-semibold border-b-2 border-[#2E8B57] pb-1"
+              : "text-gray-700 hover:text-[#2E8B57] transition"
           }
         >
           Home
@@ -67,8 +65,8 @@ const Navbar = () => {
           to="/bicycles"
           className={({ isActive }) =>
             isActive
-              ? "text-[#2E8B57] text-lg font-bold"
-              : "text-gray-700 text-lg font-medium"
+              ? "text-[#2E8B57] font-semibold border-b-2 border-[#2E8B57] pb-1"
+              : "text-gray-700 hover:text-[#2E8B57] transition"
           }
         >
           Bicycles
@@ -79,8 +77,8 @@ const Navbar = () => {
           to="/about"
           className={({ isActive }) =>
             isActive
-              ? "text-[#2E8B57] text-lg font-bold"
-              : "text-gray-700 text-lg font-medium"
+              ? "text-[#2E8B57] font-semibold border-b-2 border-[#2E8B57] pb-1"
+              : "text-gray-700 hover:text-[#2E8B57] transition"
           }
         >
           About Us
@@ -91,8 +89,8 @@ const Navbar = () => {
           to="/contact"
           className={({ isActive }) =>
             isActive
-              ? "text-[#2E8B57] text-lg font-bold"
-              : "text-gray-700 text-lg font-medium"
+              ? "text-[#2E8B57] font-semibold border-b-2 border-[#2E8B57] pb-1"
+              : "text-gray-700 hover:text-[#2E8B57] transition"
           }
         >
           Contact
@@ -103,102 +101,126 @@ const Navbar = () => {
 
   return (
     <nav className="fixed w-full shadow-md z-30 bg-white/90 backdrop-blur-md">
-      <div className="py-4">
-        <Container>
-          <div className="flex justify-between items-center relative">
-            {/* Logo */}
-            <div className="order-2 md:order-1">
-              <Link to="/" className="flex items-center gap-2">
-                <img
-                  src={logo}
-                  alt="SpinCycle Logo"
-                  className="h-16 w-16 mb-3"
-                />
-                <span className="text-[#2E8B57] text-2xl font-bold ">
-                  SpinCycle
-                </span>
-              </Link>
-            </div>
+      <div className="py-3">
+        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <img src={logo} alt="SpinCycle Logo" className="h-12 w-12" />
+            <span className="text-[#2E8B57] text-2xl font-bold">SpinCycle</span>
+          </Link>
 
-            {/* Desktop Menu */}
-            <ul className="hidden md:flex items-center gap-8 order-2">
-              {navLinks}
-            </ul>
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex items-center gap-8">{navLinks}</ul>
 
-            {/* Mobile Menu */}
-            <div className="md:hidden order-1">
-              <FiMenu
-                onClick={toggleMenu}
-                className="text-3xl text-[#2E8B57] cursor-pointer"
-              />
-              {isOpen && (
-                <ul className="absolute top-16 left-4 right-4 bg-white shadow-lg rounded-lg p-6 space-y-4">
-                  {navLinks}
-                </ul>
-              )}
-            </div>
-
-            {/* Auth Buttons */}
-            <div className="order-last flex gap-4 items-center relative">
-              {user ? (
-                <div className="relative" ref={profileRef}>
-                  <div
-                    onClick={toggleProfileMenu}
-                    className="cursor-pointer flex items-center"
-                  >
-                    <div className="w-10 h-10 rounded-full overflow-hidden">
-                      <img
-                        src={avatar}
-                        alt="User Avatar"
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                  </div>
-
-                  {profileMenuOpen && (
-                    <ul className="absolute right-0 mt-3 p-4 bg-white shadow-lg rounded-md w-52 z-40">
-                      <li className="font-bold text-gray-800 mb-2">
-                        {user?.name}
-                      </li>
-                      <li className="my-2">
-                        <Link
-                          to="/dashboard"
-                          className="text-gray-700 text-lg font-medium"
-                          onClick={() => setProfileMenuOpen(false)}
-                        >
-                          Dashboard
-                        </Link>
-                      </li>
-                      <li>
-                        <button
-                          onClick={handleLogout}
-                          className="flex gap-2 items-center text-[#FFA500] font-semibold mt-2"
-                        >
-                          Logout <FaSignOutAlt />
-                        </button>
-                      </li>
-                    </ul>
-                  )}
-                </div>
-              ) : (
-                <>
-                  <Link
-                    to="/login"
-                    className="bg-white border-2 border-[#2E8B57] text-[#2E8B57] px-4 py-2 rounded-full font-semibold flex items-center gap-2 hover:bg-[#2E8B57] hover:text-white transition"
-                  >
-                    Login <FaLock />
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="bg-[#2E8B57] text-white px-6 py-2 rounded-full font-semibold hidden lg:block hover:bg-[#256D46] transition"
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              )}
-            </div>
+          {/* Auth Buttons */}
+          <div className="hidden md:flex items-center gap-4">
+            {user ? (
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={toggleProfileMenu}
+                  className="flex items-center gap-2 text-gray-700 hover:text-[#2E8B57] transition"
+                >
+                  <FaUserCircle className="text-2xl" />
+                  <span className="font-medium">{user.name}</span>
+                </button>
+                {profileMenuOpen && (
+                  <ul className="absolute right-0 mt-3 p-4 bg-white shadow-lg rounded-md w-52 z-40">
+                    <li className="font-bold text-gray-800 mb-2">
+                      {user?.name}
+                    </li>
+                    <li className="my-2">
+                      <Link
+                        to="/dashboard"
+                        className="text-gray-700 hover:text-[#2E8B57] transition"
+                        onClick={() => setProfileMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="flex gap-2 items-center text-[#FD661F] font-semibold mt-2"
+                      >
+                        Logout <FaSignOutAlt />
+                      </button>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="border-2 border-[#2E8B57] text-[#2E8B57] px-4 py-2 rounded-full font-medium hover:bg-[#2E8B57] hover:text-white transition"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-[#2E8B57] text-white px-6 py-2 rounded-full font-medium hover:bg-[#256D46] transition"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
-        </Container>
+
+          {/* Mobile Menu */}
+          <div className="md:hidden">
+            <FiMenu
+              onClick={toggleMenu}
+              className="text-3xl text-[#2E8B57] cursor-pointer"
+            />
+            {isOpen && (
+              <ul className="absolute top-16 left-4 right-4 bg-white shadow-lg rounded-lg p-6 space-y-4">
+                {navLinks}
+                {user ? (
+                  <>
+                    <li>
+                      <Link
+                        to="/dashboard"
+                        className="text-gray-700 hover:text-[#2E8B57] transition"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="flex gap-2 items-center text-[#FD661F] font-semibold"
+                      >
+                        Logout <FaSignOutAlt />
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link
+                        to="/login"
+                        className="border-2 border-[#2E8B57] text-[#2E8B57] px-4 py-2 rounded-full font-medium hover:bg-[#2E8B57] hover:text-white transition"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/register"
+                        className="bg-[#2E8B57] text-white px-6 py-2 rounded-full font-medium hover:bg-[#256D46] transition"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Sign Up
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+            )}
+          </div>
+        </div>
       </div>
     </nav>
   );

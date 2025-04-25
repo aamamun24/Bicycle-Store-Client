@@ -8,6 +8,7 @@ import {
 import logo from "../../../assets/logo.png";
 import { MdOutlineMail } from "react-icons/md";
 import Container from "../Container/Container";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -38,19 +39,25 @@ const Footer = () => {
           </div>
 
           {/* Links Section */}
-          <div className="flex flex-col gap-3">
-            <a href="#" className="hover:text-gray-400">
-              Home
-            </a>
-            <a href="#" className="hover:text-gray-400">
-              Courses
-            </a>
-            <a href="#" className="hover:text-gray-400">
-              About Us
-            </a>
-            <a href="#" className="hover:text-gray-400">
-              Contact
-            </a>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/" className="hover:text-gray-300 transition">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/bicycles" className="hover:text-gray-300 transition">
+                  Bicycles
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-gray-300 transition">
+                  About Us
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Address Section */}
