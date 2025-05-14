@@ -10,8 +10,8 @@ import { toast } from "sonner";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "https://bicycle-store2.vercel.app/api",
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: "https://bicycle-store2.vercel.app/api",
+  // baseUrl: "http://localhost:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
