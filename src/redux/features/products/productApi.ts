@@ -56,6 +56,7 @@ const productApi = baseApi.injectEndpoints({
         method: "POST",
         body: productData,
       }),
+      invalidatesTags: ["Products"],
     }),
 
     // Update an existing product
@@ -68,6 +69,7 @@ const productApi = baseApi.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Products"],
     }),
 
     // Delete a product by ID
@@ -76,6 +78,7 @@ const productApi = baseApi.injectEndpoints({
         url: `/products/${productId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Products"],
     }),
   }),
 });

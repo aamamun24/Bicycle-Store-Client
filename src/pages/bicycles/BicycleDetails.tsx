@@ -44,7 +44,7 @@ const BicycleDetails = () => {
   };
 
   return (
-    <div className="bg-gray-100 py-12 px-6">
+    <div className="bg-gray-100 pb-12 pt-24 px-6">
       <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-12 p-8">
         {/* Image Section */}
         <div className="flex items-center justify-center bg-gray-50 rounded-xl p-6">
@@ -103,7 +103,7 @@ const BicycleDetails = () => {
             <button
               onClick={handleCheckout}
               disabled={bicycle.quantity === 0}
-              className={`mt-4 py-3 px-6 text-lg font-semibold rounded-xl transition duration-300 shadow-md ${
+              className={`py-3 px-6 text-lg font-semibold rounded-xl transition duration-300 shadow-md ${
                 bicycle.quantity > 0
                   ? "bg-blue-600 text-white hover:bg-blue-700"
                   : "bg-gray-400 text-gray-700 cursor-not-allowed"

@@ -42,11 +42,7 @@ const Checkout = () => {
       email: user?.email || "",
       address,
       contactNumber: phone,
-      product: {
-        _id: bicycle._id,
-        name: bicycle.name,
-        price: bicycle.price,
-      },
+      product: bicycle._id.toString(),
       quantity: Number(quantity),
       totalPrice: Number(total),
     };
@@ -76,7 +72,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
+    <div className="max-w-5xl pt-24 mx-auto px-6 py-10">
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
         Checkout
       </h1>

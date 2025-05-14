@@ -12,12 +12,12 @@ const PaymentSuccess = () => {
           you for your purchase.
         </p>
         <div className="flex justify-center items-center gap-4">
-          <Link to="/">
+          <Link to="/bicycles">
             <button className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition duration-300">
               Continue Shopping
             </button>
           </Link>
-          <Link to="/orders">
+          <Link to="/dashboard/my-orders">
             <button className="bg-green-600 text-white py-2 px-4 rounded-lg shadow hover:bg-green-700 transition duration-300">
               View Orders
             </button>

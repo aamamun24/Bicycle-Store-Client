@@ -15,6 +15,8 @@ import ManageOrders from "../pages/dashboard/order/ManageOrders";
 import ManageUsers from "../pages/dashboard/ManageUsers/ManageUsers";
 import ManageProducts from "../pages/dashboard/ManageProducts/ManageProducts";
 import CreateProduct from "../pages/dashboard/ManageProducts/CreateProduct";
+import MyOrders from "../pages/dashboard/order/MyOrders";
+import Profile from "../pages/dashboard/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +38,7 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: (
-          <ProtectedRoute allowedRoles={["customer"]}>
+          <ProtectedRoute allowedRoles={["admin", "customer"]}>
             <Checkout />
           </ProtectedRoute>
         ),
@@ -48,7 +50,7 @@ const router = createBrowserRouter([
       {
         path: "/payment/success",
         element: (
-          <ProtectedRoute allowedRoles={["customer"]}>
+          <ProtectedRoute allowedRoles={["admin", "customer"]}>
             <PaymentSuccess />
           </ProtectedRoute>
         ),
@@ -56,7 +58,7 @@ const router = createBrowserRouter([
       {
         path: "/payment/fail",
         element: (
-          <ProtectedRoute allowedRoles={["customer"]}>
+          <ProtectedRoute allowedRoles={["admin", "customer"]}>
             <PaymentFail />
           </ProtectedRoute>
         ),
@@ -72,11 +74,10 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "orders",
+        path: "my-orders",
         element: (
           <ProtectedRoute allowedRoles={["customer"]}>
-            <div>My Orders (Customer)</div>{" "}
-            {/* Replace with actual component */}
+            <MyOrders />
           </ProtectedRoute>
         ),
       },
@@ -109,6 +110,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["admin"]}>
             <CreateProduct />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <ProtectedRoute allowedRoles={["admin", "customer"]}>
+            <Profile />
           </ProtectedRoute>
         ),
       },

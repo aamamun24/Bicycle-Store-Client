@@ -50,7 +50,8 @@ const Bicycles = () => {
   if (isError) return <p>Error loading bicycles</p>;
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="container mx-auto p-8 pt-24">
+      <title>Spin Bicycle | Shop</title>
       <div className="flex flex-col md:flex-row gap-6">
         {/* Filters Section */}
         <div className="w-full md:w-1/4 bg-white p-6 rounded-lg shadow-lg">

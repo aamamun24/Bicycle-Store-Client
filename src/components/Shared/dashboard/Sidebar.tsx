@@ -82,18 +82,6 @@ const Sidebar = () => {
                       My Orders
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink
-                      to="/dashboard/wishlist"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-[#FD661F] text-lg font-bold"
-                          : "text-[#252641] text-lg font-medium"
-                      }
-                    >
-                      Wishlist
-                    </NavLink>
-                  </li>
                 </>
               )}
               {role === "admin" && (

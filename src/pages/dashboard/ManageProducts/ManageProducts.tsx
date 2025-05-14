@@ -5,6 +5,7 @@ import {
   useGetAllProductsQuery,
   useUpdateProductMutation,
 } from "../../../redux/features/products/productApi";
+import Loader from "../../../components/Shared/Loader/Loader";
 
 const ManageProducts = () => {
   const { data, isLoading, isError } = useGetAllProductsQuery({});
@@ -53,54 +54,58 @@ const ManageProducts = () => {
     }));
   };
 
-  if (isLoading) return <p>Loading products...</p>;
+  if (isLoading) return <Loader />;
   if (isError) return <p>Failed to load products.</p>;
 
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-3xl font-bold mb-6">Manage Products</h1>
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 p-2">Name</th>
-            <th className="border border-gray-300 p-2">Brand</th>
-            <th className="border border-gray-300 p-2">Price</th>
-            <th className="border border-gray-300 p-2">Type</th>
-            <th className="border border-gray-300 p-2">Stock</th>
-            <th className="border border-gray-300 p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.data.map((product) => (
-            <tr key={product._id}>
-              <td className="border border-gray-300 p-2">{product.name}</td>
-              <td className="border border-gray-300 p-2">{product.brand}</td>
-              <td className="border border-gray-300 p-2">${product.price}</td>
-              <td className="border border-gray-300 p-2">{product.type}</td>
-              <td className="border border-gray-300 p-2">
-                {product.inStock ? "In Stock" : "Out of Stock"}
-              </td>
-              <td className="border border-gray-300 p-2">
-                <button
-                  onClick={() => {
-                    handleEdit(product._id);
-                    setFormData(product); // Set default product data in the form
-                  }}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(product._id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-2">Name</th>
+              <th className="border border-gray-300 p-2">Brand</th>
+              <th className="border border-gray-300 p-2">Price</th>
+              <th className="border border-gray-300 p-2">Type</th>
+              <th className="border border-gray-300 p-2">Stock</th>
+              <th className="border border-gray-300 p-2">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data?.data.map((product) => (
+              <tr key={product._id}>
+                <td className="border border-gray-300 p-2">{product?.name}</td>
+                <td className="border border-gray-300 p-2">{product?.brand}</td>
+                <td className="border border-gray-300 p-2">
+                  ${product?.price}
+                </td>
+                <td className="border border-gray-300 p-2">{product?.type}</td>
+                <td className="border border-gray-300 p-2">
+                  {product.inStock ? "In Stock" : "Out of Stock"}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  <button
+                    onClick={() => {
+                      handleEdit(product._id);
+                      setFormData(product);
+                    }}
+                    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Edit Modal */}
       {editingProductId && formData && (
@@ -113,7 +118,7 @@ const ManageProducts = () => {
               <input
                 type="text"
                 name="name"
-                value={formData.name}
+                value={formData?.name}
                 onChange={handleInputChange}
                 placeholder="Product Name"
                 className="p-3 border rounded-lg"
